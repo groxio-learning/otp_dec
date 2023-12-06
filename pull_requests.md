@@ -1,3 +1,4 @@
 - Bruce Tate
 - Augusta Wind
 - Ross Geesman
+- Connor Tarczon
