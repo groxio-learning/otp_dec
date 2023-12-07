@@ -26,4 +26,24 @@ defmodule Numble.Score do
         end
     end
   end
+
+  @spec new_with_duplicates(row(), row()) :: t()
+  def new_with_duplicates(answer, guess) do
+    reds =
+      Enum.zip(answer, guess)
+      |> Enum.count(fn {a, g} -> a == g end)
+
+    blacks =
+      Enum.count(guess -- answer)
+
+    whites =
+      4 - reds - blacks
+
+    __struct__(red: reds, white: whites)
+  end
+
+  @spec show(t()) :: String.t()
+  def show(%__MODULE__{red: reds, white: whites}) do
+    String.duplicate("R", reds) <> String.duplicate("W", whites)
+  end
 end
