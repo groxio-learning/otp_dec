@@ -32,6 +32,8 @@ defmodule Numble.Server do
     if Board.show_status(new_board) == "playing" do
       {:reply, Board.show(new_board), new_board}
     else
+      # Note: Because of dynamic supervisor, the process will just start back
+      # up again once it stops
       {:stop, :normal, Board.show(new_board), new_board}
     end
   end
