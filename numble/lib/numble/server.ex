@@ -28,7 +28,12 @@ defmodule Numble.Server do
   @impl true
   def handle_call({:take_turn, guess}, _from, board) do
     new_board = Board.take_turn(board, guess)
-    {:reply, Board.show(new_board), new_board}
+
+    if Board.show_status(new_board) == "playing" do
+      {:reply, Board.show(new_board), new_board}
+    else
+      {:stop, :normal, Board.show(new_board), new_board}
+    end
   end
 
   def child_spec({answer, name}) do
