@@ -56,11 +56,11 @@ defmodule Numble.Board do
 
   defp show_turn({guess, score}), do: "#{inspect(guess)} | #{Score.show(score)}\n"
 
-  defp show_status(%{answer: answer, guesses: [answer | _]}) do
+  def show_status(%{answer: answer, guesses: [answer | _]}) do
     "won"
   end
 
-  defp show_status(%{guesses: guesses}) do
+  def show_status(%{guesses: guesses}) do
     cond do
       length(guesses) >= 10 ->
         "lost"

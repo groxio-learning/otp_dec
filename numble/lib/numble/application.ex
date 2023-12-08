@@ -8,12 +8,7 @@ defmodule Numble.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: Numble.Worker.start_link(arg)
-      {Numble.Server, {Numble.Board.generate_answer(), :augusta}},
-      {Numble.Server, {Numble.Board.generate_answer(), :bruce}},
-      {Numble.Server, {Numble.Board.generate_answer(), :connor}},
-      {Numble.Server, {Numble.Board.generate_answer(), :juno}},
-      {Numble.Server, {Numble.Board.generate_answer(), :ross}}
+      {DynamicSupervisor, name: :dsup, strategy: :one_for_one}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
