@@ -22,7 +22,6 @@ defmodule Numble.Board do
     }
   end
 
-
   def generate_answer(), do: generate_answer(:unique)
 
   def generate_answer(:unique), do: 1..8 |> Enum.shuffle() |> Enum.take(4)
@@ -33,31 +32,29 @@ defmodule Numble.Board do
       |> Stream.repeatedly()
       |> Enum.take(4)
 
-
-   @doc """
-    1 2 3 4 | RRW
-    1 2 3 4 | RRW
-    1 2 3 4 | RRW
-    1 2 3 4 | RRW
-    playing | won | lost
-   """
+  @doc """
+   1 2 3 4 | RRW
+   1 2 3 4 | RRW
+   1 2 3 4 | RRW
+   1 2 3 4 | RRW
+   playing | won | lost
+  """
   @spec show(t()) :: String.t()
   def show(board) do
     turns = Enum.zip(board.guesses, board.scores)
 
     # [[1,2,3,4], [4,4,4,4]], ["RRW", "RRR"]
     """
-    #{show_turns(board.answer, turns)}
+    #{show_turns(turns)}
     #{show_status(board)}
     """
   end
 
-
-  defp show_turns(answer, turns) do
-    Enum.map(turns, fn turn -> show_turn(answer, turn) end)
+  defp show_turns(turns) do
+    Enum.map(turns, fn turn -> show_turn(turn) end)
   end
 
-  defp show_turn(answer, {guess, score}), do: "#{inspect(guess)} | #{Score.show(score)}\n"
+  defp show_turn({guess, score}), do: "#{inspect(guess)} | #{Score.show(score)}\n"
 
   defp show_status(%{answer: answer, guesses: [answer | _]}) do
     "won"
@@ -67,6 +64,7 @@ defmodule Numble.Board do
     cond do
       length(guesses) >= 10 ->
         "lost"
+
       :otherwise ->
         "playing"
     end

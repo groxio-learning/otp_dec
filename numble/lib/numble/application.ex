@@ -9,7 +9,7 @@ defmodule Numble.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Numble.Worker.start_link(arg)
-      # {Numble.Worker, arg}
+      {Numble.Server, {Numble.Board.generate_answer(), Misato.Katsuragi}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
