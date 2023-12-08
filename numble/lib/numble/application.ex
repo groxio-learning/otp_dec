@@ -9,12 +9,16 @@ defmodule Numble.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Numble.Worker.start_link(arg)
-      {Numble.Server, {Numble.Board.generate_answer(), Misato.Katsuragi}}
+      {Numble.Server, {Numble.Board.generate_answer(), :augusta}},
+      {Numble.Server, {Numble.Board.generate_answer(), :bruce}},
+      {Numble.Server, {Numble.Board.generate_answer(), :connor}},
+      {Numble.Server, {Numble.Board.generate_answer(), :juno}},
+      {Numble.Server, {Numble.Board.generate_answer(), :ross}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Numble.Supervisor]
+    opts = [strategy: :one_for_all, name: Numble.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

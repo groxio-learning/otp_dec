@@ -6,8 +6,8 @@ defmodule Numble.Server do
   # ----------------------------------------------
   # Client
 
-  def start_link({input, name}) do
-    GenServer.start_link(__MODULE__, input, name: name)
+  def start_link({answer, name}) do
+    GenServer.start_link(__MODULE__, {answer, name}, name: name)
   end
 
   def take_turn(pid, guess) do
@@ -19,8 +19,8 @@ defmodule Numble.Server do
   # Server
 
   @impl true
-  def init(answer) do
-    IO.puts("Starting...")
+  def init({answer, name}) do
+    IO.puts("Starting #{name}...")
     board = Board.new(answer)
     {:ok, board}
   end
@@ -29,5 +29,12 @@ defmodule Numble.Server do
   def handle_call({:take_turn, guess}, _from, board) do
     new_board = Board.take_turn(board, guess)
     {:reply, Board.show(new_board), new_board}
+  end
+
+  def child_spec({answer, name}) do
+    %{
+      id: name,
+      start: {Numble.Server, :start_link, [{answer, name}]}
+    }
   end
 end
